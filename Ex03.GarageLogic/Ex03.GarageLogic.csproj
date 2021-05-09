@@ -40,8 +40,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Exceptions\GarageException.cs" />
     <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
+    <Compile Include="Garage\Garage.cs" />
     <Compile Include="GarageManager.cs" />
+    <Compile Include="Garage\GarageReport.cs" />
     <Compile Include="VehicleParts\eFuelType.cs" />
     <Compile Include="VehicleParts\ElectricEnergyUnit.cs" />
     <Compile Include="VehicleParts\EnergyUnit.cs" />
