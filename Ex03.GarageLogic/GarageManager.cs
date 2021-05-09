@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ex03.GarageLogic.Garage;
 
 namespace Ex03.GarageLogic
 {
-    class GarageManager
+    public class GarageManager
     {
+        private readonly Garage.Garage m_Garage = new Garage.Garage();
+
     }
 }
