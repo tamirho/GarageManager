@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Ex03.GarageLogic.Exceptions
+namespace Ex03.GarageLogic.Garage
 {
-    class GarageException : Exception
+    public class GarageException : Exception
     {
         public GarageException(string i_ExceptionMessage, Exception i_InnerException)
             : base(string.Format("GarageException: {0}", i_ExceptionMessage), i_InnerException)

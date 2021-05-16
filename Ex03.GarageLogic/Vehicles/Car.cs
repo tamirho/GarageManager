@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -12,7 +13,7 @@ namespace Ex03.GarageLogic.Vehicles
         internal Car(
             string i_LicenseNumber,
             string i_ModelName,
-            List<Wheel> i_Wheels,
+            Wheels i_Wheels,
             EnergyUnit i_EnergyUnit,
             eCarColor i_CarColor,
             eNumberOfCarDoors i_NumberOfDoors)
@@ -20,6 +21,19 @@ namespace Ex03.GarageLogic.Vehicles
         {
             Color = i_CarColor;
             NumberOfDoors = i_NumberOfDoors;
+        }
+
+        internal Car(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit, object[] i_VehicleSpecialParams)
+            : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
+        {
+            Color = (eCarColor)i_VehicleSpecialParams[(int)eCarSpecialParams.CarColor];
+            NumberOfDoors = (eNumberOfCarDoors)i_VehicleSpecialParams[(int)eCarSpecialParams.NumberOfCarDoors];
+        }
+
+        public enum eCarSpecialParams
+        {
+            CarColor = 0,
+            NumberOfCarDoors
         }
 
         public enum eCarColor

@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic.Vehicles
         internal Bike(
             string i_LicenseNumber,
             string i_ModelName,
-            List<Wheel> i_Wheels,
+            Wheels i_Wheels,
             EnergyUnit i_EnergyUnit,
             eLicenseType i_LicenseType,
             int i_EngineVolume)
@@ -20,6 +20,19 @@ namespace Ex03.GarageLogic.Vehicles
         {
             LicenseType = i_LicenseType;
             EngineVolume = i_EngineVolume;
+        }
+
+        internal Bike(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit, object[] i_VehicleSpecialParams)
+            : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
+        {
+            m_LicenseType = (eLicenseType)i_VehicleSpecialParams[(int)eBikeSpecialParams.LicenseType];
+            m_EngineVolume = (int)i_VehicleSpecialParams[(int)eBikeSpecialParams.EngineVolume];
+        }
+
+        public enum eBikeSpecialParams
+        {
+            LicenseType = 0,
+            EngineVolume
         }
 
         public enum eLicenseType

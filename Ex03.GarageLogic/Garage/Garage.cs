@@ -1,50 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ex03.GarageLogic.Exceptions;
+using System.Linq;
 using Ex03.GarageLogic.VehicleParts;
 using Ex03.GarageLogic.Vehicles;
 
 namespace Ex03.GarageLogic.Garage
 {
-    internal class Garage
+    public class Garage
     {
-        private Dictionary<string, GarageReport> m_GarageReportDictionary;
+        private readonly Dictionary<string, GarageReport> r_GarageReportDictionary;
 
         public Garage()
         {
-            Dictionary<string, GarageReport> m_GarageReportDictionary = new Dictionary<string, GarageReport>();
+            r_GarageReportDictionary = new Dictionary<string, GarageReport>();
+        }
+
+        public Dictionary<string, GarageReport> GarageReports
+        {
+            get
+            {
+                return r_GarageReportDictionary;
+            }
         }
 
         public void InsertNewVehicle(string i_OwnerName, string i_OwnersPhoneNumber, Vehicle i_Vehicle)
         {
-            if(m_GarageReportDictionary.ContainsKey(i_Vehicle.LicenseNumber))
+            if(r_GarageReportDictionary.ContainsKey(i_Vehicle.LicenseNumber))
             {
-                m_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eCarGarageStatus.InRepair;
+                r_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eCarGarageStatus.InRepair;
             }
             else
             {
                 GarageReport newGarageReport = new GarageReport(i_OwnerName, i_OwnersPhoneNumber, i_Vehicle);
-                m_GarageReportDictionary.Add(i_Vehicle.LicenseNumber, newGarageReport);
+                r_GarageReportDictionary.Add(i_Vehicle.LicenseNumber, newGarageReport);
             }
         }
 
         public List<string> GetLicenseListOfExistingVehicle()
         {
-            List<string> theLicenseNumberList = new List<string>();
-
-            foreach (string key in m_GarageReportDictionary.Keys)
-            {
-                theLicenseNumberList.Add(key);
-            }
-
-            return theLicenseNumberList;
+            return r_GarageReportDictionary.Keys.ToList();
         }
 
         public List<string> GetLicenseListOfExistingVehicle(GarageReport.eCarGarageStatus i_Status)
         {
             List<string> theFilteredLicenseNumberList = new List<string>();
-            
-            foreach(KeyValuePair<string, GarageReport> pairReport in m_GarageReportDictionary)
+
+            foreach(KeyValuePair<string, GarageReport> pairReport in r_GarageReportDictionary)
             {
                 if(pairReport.Value.Status == i_Status)
                 {
@@ -64,7 +65,7 @@ namespace Ex03.GarageLogic.Garage
         public void InflateVehicleWheelsPressureToMaxByLicenseNumber(string i_LicenseNumber)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
-            foreach (Wheel theWheel in theReport.Vehicle.WheelsList)
+            foreach (Wheel theWheel in theReport.Vehicle.Wheels.WheelsList)
             {
                 theWheel.AddAirPressure(theWheel.MaxAirPressure - theWheel.CurrentAirPressure);
             }
@@ -73,9 +74,7 @@ namespace Ex03.GarageLogic.Garage
         public void RefuelVehicleByLicenseNumber(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelLiters)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
-            FuelEnergyUnit theEnergyUnit = theReport.Vehicle.EnergyUnit as FuelEnergyUnit;
-
-            if(theEnergyUnit == null)
+            if (!(theReport.Vehicle.EnergyUnit is FuelEnergyUnit theEnergyUnit))
             {
                 throw new GarageException("Can't refuel non-fuel energy unit");
             }
@@ -87,7 +86,7 @@ namespace Ex03.GarageLogic.Garage
             catch(Exception exception)
             {
                 throw new GarageException(
-                    string.Format("Cant Refuel Vehicle with License Number {0}", i_LicenseNumber),
+                    string.Format("Can't refuel vehicle with license number {0}", i_LicenseNumber),
                     exception);
             }
         }
@@ -95,11 +94,9 @@ namespace Ex03.GarageLogic.Garage
         public void ChargeElectricVehicleByLicenseNumber(string i_LicenseNumber, float i_HoursToCharge)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
-            ElectricEnergyUnit theEnergyUnit = theReport.Vehicle.EnergyUnit as ElectricEnergyUnit;
-            
-            if (theEnergyUnit == null)
+            if (!(theReport.Vehicle.EnergyUnit is ElectricEnergyUnit theEnergyUnit))
             {
-                throw new GarageException("Can't refuel non-fuel energy unit");
+                throw new GarageException("Can't charge non-electric energy unit");
             }
 
             try
@@ -109,28 +106,38 @@ namespace Ex03.GarageLogic.Garage
             catch(Exception exception)
             {
                 throw new GarageException(
-                    string.Format("Cant Charge Vehicle with License Number {0}", i_LicenseNumber),
+                    string.Format("Can't charge vehicle with license number {0}", i_LicenseNumber),
                     exception);
             }
         }
-
-        // TODO : 7 VIEW ALL GARAGE REPORTS
 
         private GarageReport getGarageReportByLicenseNumber(string i_LicenseNumber)
         {
             if(i_LicenseNumber == null)
             {
                 throw new GarageException(
-                    string.Format("Invalid license number, Null was given"),
+                    "Invalid license number, Null was given",
                     new ArgumentNullException());
             }
-            if(!m_GarageReportDictionary.ContainsKey(i_LicenseNumber))
+            if(!r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
             {
                 throw new GarageException(
                     string.Format("Car with {0} license number can't be found in the garage", i_LicenseNumber),
                     new KeyNotFoundException());
             }
-            return m_GarageReportDictionary[i_LicenseNumber];
+
+            return r_GarageReportDictionary[i_LicenseNumber];
         }
+
+        //public GarageReport GetExsitingVehicleReportOrNull(string i_LicenseNumber)
+        //{
+        //    GarageReport theReport = null;
+        //    if (i_LicenseNumber != null && r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
+        //    {
+        //        theReport = r_GarageReportDictionary[i_LicenseNumber];
+        //    }
+            
+        //    return theReport;
+        //}
     }
 }

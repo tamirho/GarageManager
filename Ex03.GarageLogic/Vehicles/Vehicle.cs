@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -7,15 +8,21 @@ namespace Ex03.GarageLogic.Vehicles
     {
         private string m_LicenseNumber;
         private string m_ModelName;
-        private List<Wheel> m_WheelsList;
+        private Wheels m_Wheels;
         private EnergyUnit m_EnergyUnit;
 
-        internal Vehicle(string i_LicenseNumber, string i_ModelName, List<Wheel> i_Wheels, EnergyUnit i_EnergyUnit)
+        internal Vehicle(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit)
         {
             LicenseNumber = i_LicenseNumber;
             ModelName = i_ModelName;
-            WheelsList = i_Wheels;
+            Wheels = i_Wheels;
             EnergyUnit = i_EnergyUnit;
+        }
+
+        internal Vehicle(string i_LicenseNumber, string i_ModelName)
+        {
+            LicenseNumber = i_LicenseNumber;
+            ModelName = i_ModelName;
         }
 
         public string LicenseNumber
@@ -42,15 +49,15 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-        internal List<Wheel> WheelsList
+        internal Wheels Wheels
         {
             get
             {
-                return m_WheelsList;
+                return m_Wheels;
             }
             set
             {
-                m_WheelsList = value;
+                m_Wheels = value;
             }
         }
 

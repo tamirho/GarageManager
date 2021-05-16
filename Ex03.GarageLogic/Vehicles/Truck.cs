@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic.Vehicles
         internal Truck(
             string i_LicenseNumber,
             string i_ModelName,
-            List<Wheel> i_Wheels,
+            Wheels i_Wheels,
             EnergyUnit i_EnergyUnit,
             bool i_IsDrivesHazardousMaterials,
             float i_MaxCapacityWeight)
@@ -20,6 +20,19 @@ namespace Ex03.GarageLogic.Vehicles
         {
             IsDrivesHazardousMaterials = i_IsDrivesHazardousMaterials;
             MaxCapacityWeight = i_MaxCapacityWeight;
+        }
+
+        internal Truck(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit, object[] i_VehicleSpecialParams)
+            : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
+        {
+            IsDrivesHazardousMaterials = (bool)i_VehicleSpecialParams[(int)eTruckSpecialParams.IsDrivesHazardousMaterials];
+            MaxCapacityWeight = (float)i_VehicleSpecialParams[(int)eTruckSpecialParams.MaxCapacityWeight];
+        }
+
+        public enum eTruckSpecialParams
+        {
+            IsDrivesHazardousMaterials = 0,
+            MaxCapacityWeight
         }
 
         public bool IsDrivesHazardousMaterials

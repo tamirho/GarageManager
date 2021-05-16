@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic.Exceptions
         private float m_MaxValue;
         private float m_MinValue;
         private float m_InvalidValue;
-        private static string m_ExceptionMessage = "ValueOutOfRangeException: {0} is not in the range between {1} to {2}";
+        private static string m_ExceptionMessage = " ValueOutOfRangeException: {0} is not in the range between {1} to {2}";
 
         public ValueOutOfRangeException(
             Exception i_InnerException,
