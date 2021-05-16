@@ -2,7 +2,7 @@
 {
     public enum eVehiclesType
     {
-        NormalBike,
+        NormalBike = 1,
         ElectricBike,
         NormalCar,
         ElectricCar,

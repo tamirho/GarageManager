@@ -43,6 +43,11 @@ namespace Ex03.GarageLogic.Garage
 
         public List<string> GetLicenseListOfExistingVehicle(GarageReport.eCarGarageStatus i_Status)
         {
+            if(!Enum.IsDefined(typeof(GarageReport.eCarGarageStatus), i_Status))
+            {
+                throw new ArgumentException("Error with eCarGarageStatus conversion");
+            }
+
             List<string> theFilteredLicenseNumberList = new List<string>();
 
             foreach(KeyValuePair<string, GarageReport> pairReport in r_GarageReportDictionary)
@@ -129,15 +134,9 @@ namespace Ex03.GarageLogic.Garage
             return r_GarageReportDictionary[i_LicenseNumber];
         }
 
-        //public GarageReport GetExsitingVehicleReportOrNull(string i_LicenseNumber)
-        //{
-        //    GarageReport theReport = null;
-        //    if (i_LicenseNumber != null && r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
-        //    {
-        //        theReport = r_GarageReportDictionary[i_LicenseNumber];
-        //    }
-            
-        //    return theReport;
-        //}
+        public bool CheckIfExistingVehicleReport(string i_LicenseNumber)
+        {
+            return i_LicenseNumber != null && r_GarageReportDictionary.ContainsKey(i_LicenseNumber);
+        }
     }
 }

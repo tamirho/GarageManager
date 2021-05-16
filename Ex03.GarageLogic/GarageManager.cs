@@ -83,6 +83,10 @@ namespace Ex03.GarageLogic
             m_Garage.ChargeElectricVehicleByLicenseNumber(i_LicenseNumber, i_HoursToCharge);
         }
 
+        public bool CheckIfExistingVehicleReport(string i_LicenseNumber)
+        {
+            return m_Garage.CheckIfExistingVehicleReport(i_LicenseNumber);
+        }
 
 
     }

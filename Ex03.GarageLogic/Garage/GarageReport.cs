@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic.Garage
 
         public enum eCarGarageStatus
         {
-            InRepair,
+            InRepair = 1,
             Fixed,
             Paid
         }

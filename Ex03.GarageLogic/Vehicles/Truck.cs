@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic.Vehicles
 {
     public class Truck : Vehicle
     {
-        private bool m_IsDrivesHazardousMaterials;
+        private eHazardousMaterials m_IsDrivesHazardousMaterials;
         private float m_MaxCapacityWeight;
 
         internal Truck(
@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic.Vehicles
             string i_ModelName,
             Wheels i_Wheels,
             EnergyUnit i_EnergyUnit,
-            bool i_IsDrivesHazardousMaterials,
+            eHazardousMaterials i_IsDrivesHazardousMaterials,
             float i_MaxCapacityWeight)
             : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
         {
@@ -25,8 +25,14 @@ namespace Ex03.GarageLogic.Vehicles
         internal Truck(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit, object[] i_VehicleSpecialParams)
             : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
         {
-            IsDrivesHazardousMaterials = (bool)i_VehicleSpecialParams[(int)eTruckSpecialParams.IsDrivesHazardousMaterials];
+            IsDrivesHazardousMaterials = (eHazardousMaterials)i_VehicleSpecialParams[(int)eTruckSpecialParams.IsDrivesHazardousMaterials];
             MaxCapacityWeight = (float)i_VehicleSpecialParams[(int)eTruckSpecialParams.MaxCapacityWeight];
+        }
+
+        public enum eHazardousMaterials
+        {
+            ContainsHazardousMaterials = 1,
+            NotContainsHazardousMaterials
         }
 
         public enum eTruckSpecialParams
@@ -35,7 +41,7 @@ namespace Ex03.GarageLogic.Vehicles
             MaxCapacityWeight
         }
 
-        public bool IsDrivesHazardousMaterials
+        public eHazardousMaterials IsDrivesHazardousMaterials
         {
             get
             {
@@ -43,6 +49,11 @@ namespace Ex03.GarageLogic.Vehicles
             }
             set
             {
+                if (!Enum.IsDefined(typeof(eHazardousMaterials), value))
+                {
+                    throw new ArgumentException("Error with eHazardousMaterials conversion");
+                }
+
                 m_IsDrivesHazardousMaterials = value;
             }
         }
