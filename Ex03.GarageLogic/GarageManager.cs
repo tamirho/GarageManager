@@ -2,6 +2,7 @@
 using Ex03.GarageLogic.Garage;
 using Ex03.GarageLogic.VehicleParts;
 using Ex03.GarageLogic.Vehicles;
+using Ex03.GarageLogic.VehicleCreator;
 
 namespace Ex03.GarageLogic
 {
@@ -19,18 +20,33 @@ namespace Ex03.GarageLogic
             return m_Garage.GarageReports;
         }
 
-        private void CreateVehicle(
+        public Vehicle CreateVehicle(
             eVehiclesType i_Type,
             string i_LicenseNumber,
             string i_ModelName,
             string i_WheelsManufacturerName,
             object[] i_VehicleSpecialParams)
         {
-            // create vehicle without special params with VehicleCreator
-            // build the rest of the vehicle with special params
-            // insert the vehicle to the garage with the garage report
+            return VehicleCreator.VehicleCreator.CreateVehicle(
+                 i_Type,
+                 i_LicenseNumber,
+                 i_ModelName,
+                 i_WheelsManufacturerName,
+                 i_VehicleSpecialParams);
         }
 
+        public void CreateAndInsertNewVehicle(
+            string i_OwnerName,
+            string i_OwnersPhoneNumber,
+            eVehiclesType i_Type,
+            string i_LicenseNumber,
+            string i_ModelName,
+            string i_WheelsManufacturerName,
+            object[] i_VehicleSpecialParams)
+        {
+            Vehicle newVehicle = CreateVehicle(i_Type, i_LicenseNumber, i_ModelName, i_WheelsManufacturerName, i_VehicleSpecialParams);
+            InsertVehicleToGarage(i_OwnerName, i_OwnersPhoneNumber, newVehicle);
+        }
 
         public void InsertVehicleToGarage(string i_OwnerName, string i_OwnersPhoneNumber, Vehicle i_Vehicle)
         {
