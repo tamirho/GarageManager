@@ -16,5 +16,13 @@
         {
             CurrentEnergyAmount += i_HoursToCharge;
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Electric Energy Unit:
+{0}",
+                base.ToString());
+        }
     }
 }

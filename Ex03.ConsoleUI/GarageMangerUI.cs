@@ -52,7 +52,7 @@ namespace Ex03.ConsoleUI
                 switch(userChoice)
                 {
                     case eMainMenuOptions.InsertVehicleToGarage:
-                        insertCarToGarage();
+                        insertVehicleToGarage();
                         break;
                     case eMainMenuOptions.DisplayVehiclesLicenseList:
                         displayVehiclesLicensesList();
@@ -70,7 +70,7 @@ namespace Ex03.ConsoleUI
                         chargeElectricVehicle();
                         break;
                     case eMainMenuOptions.DisplayAllVehiclesData:
-                        //displayAllVehiclesData();
+                        displayAllVehiclesData();
                         break;
                     case eMainMenuOptions.Exit:
                         exitFlag = true;
@@ -86,123 +86,7 @@ namespace Ex03.ConsoleUI
             while(exitFlag == false);
         }
 
-        private void refuelVehicle()
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("~ Refuel Vehicle ~");
-                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
-                eFuelType fuelType = (eFuelType)getUserInputFromEnumMenu(new eFuelType());
-                float fuelLiters = ConsoleInputUI.GetFloatFromUser();
-                m_GarageManager.RefuelVehicleByLicenseNumber(licenseNumber, fuelType, fuelLiters);
-                Console.WriteLine("Vehicle has been refueled successfully");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("Can't refuel vehicle");
-                while (exception != null)
-                {
-                    Console.WriteLine(exception.Message);
-                    exception = exception.InnerException;
-                }
-            }
-        }
-
-        private void inflateVehicleWheels()
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("~ Inflate Vehicle Wheels ~");
-                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
-                m_GarageManager.InflateVehicleWheelsPressureToMaxByLicenseNumber(licenseNumber);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("Can't inflate vehicle wheels");
-                while (exception != null)
-                {
-                    Console.WriteLine(exception.Message);
-                    exception = exception.InnerException;
-                }
-            }
-        }
-
-        private void changeVehicleStatus()
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("~ Change Vehicle Status ~");
-                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
-                Console.WriteLine("Choose status: ");
-                GarageReport.eCarGarageStatus newStatus =
-                    (GarageReport.eCarGarageStatus)getUserInputFromEnumMenu(new GarageReport.eCarGarageStatus());
-                m_GarageManager.ChangeVehicleStatusByLicenseNumber(licenseNumber, newStatus);
-                Console.WriteLine("Status has been updated successfully");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("Can't change vehicle status");
-                while (exception != null)
-                {
-                    Console.WriteLine(exception.Message);
-                    exception = exception.InnerException;
-                }
-            }
-        }
-
-        public enum eVehiclesLicensesMenuOptions
-        {
-            DisplayAllVehiclesLicenses = 1,
-            DisplayVehiclesLicensesByStatus
-        }
-
-        private void displayVehiclesLicensesList()
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("~ Display Vehicles Licenses List ~");
-                eVehiclesLicensesMenuOptions menuOption =
-                    (eVehiclesLicensesMenuOptions)getUserInputFromEnumMenu(new eVehiclesLicensesMenuOptions());
-                List<string> theLicenseList;
-                switch(menuOption)
-                {
-                    case eVehiclesLicensesMenuOptions.DisplayAllVehiclesLicenses:
-                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle();
-                        break;
-                    case eVehiclesLicensesMenuOptions.DisplayVehiclesLicensesByStatus:
-                        Console.WriteLine("Choose status: ");
-                        GarageReport.eCarGarageStatus statusFilter =
-                            (GarageReport.eCarGarageStatus)getUserInputFromEnumMenu(
-                                new GarageReport.eCarGarageStatus());
-
-                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle(statusFilter);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                foreach(string licensesNumber in theLicenseList)
-                {
-                    Console.WriteLine(licensesNumber);
-                }
-            }
-            catch(Exception exception)
-            {
-                Console.WriteLine("Can't display licenses list");
-                while (exception != null)
-                {
-                    Console.WriteLine(exception.Message);
-                    exception = exception.InnerException;
-                }
-            }
-        }
-
-
-        private void insertCarToGarage()
+        private void insertVehicleToGarage()
         {
             try
             {
@@ -238,7 +122,7 @@ namespace Ex03.ConsoleUI
                 {
                     m_GarageManager.ChangeVehicleStatusByLicenseNumber(
                         licenseNumber,
-                        GarageReport.eCarGarageStatus.InRepair);
+                        GarageReport.eVehicleGarageStatus.InRepair);
                     Console.WriteLine("The vehicle is already in the garage, the status has been changed to InRepair");
 
                 }
@@ -246,12 +130,152 @@ namespace Ex03.ConsoleUI
             catch(Exception exception)
             {
                 Console.WriteLine("Can't insert vehicle");
-                while (exception != null)
+                while(exception != null)
                 {
                     Console.WriteLine(exception.Message);
                     exception = exception.InnerException;
                 }
             }
+        }
+
+        public enum eVehiclesLicensesMenuOptions
+        {
+            DisplayAllVehiclesLicenses = 1,
+            DisplayVehiclesLicensesByStatus
+        }
+
+        private void displayVehiclesLicensesList()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("~ Display Vehicles Licenses List ~");
+                eVehiclesLicensesMenuOptions menuOption =
+                    (eVehiclesLicensesMenuOptions)getUserInputFromEnumMenu(new eVehiclesLicensesMenuOptions());
+                List<string> theLicenseList;
+                switch(menuOption)
+                {
+                    case eVehiclesLicensesMenuOptions.DisplayAllVehiclesLicenses:
+                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle();
+                        break;
+                    case eVehiclesLicensesMenuOptions.DisplayVehiclesLicensesByStatus:
+                        Console.WriteLine("Choose status: ");
+                        GarageReport.eVehicleGarageStatus statusFilter =
+                            (GarageReport.eVehicleGarageStatus)getUserInputFromEnumMenu(
+                                new GarageReport.eVehicleGarageStatus());
+
+                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle(statusFilter);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                foreach(string licensesNumber in theLicenseList)
+                {
+                    Console.WriteLine(licensesNumber);
+                }
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine("Can't display licenses list");
+                printExceptionStack(exception);
+            }
+        }
+
+        private void changeVehicleStatus()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("~ Change Vehicle Status ~");
+                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
+                Console.WriteLine("Choose status: ");
+                GarageReport.eVehicleGarageStatus newStatus =
+                    (GarageReport.eVehicleGarageStatus)getUserInputFromEnumMenu(new GarageReport.eVehicleGarageStatus());
+                m_GarageManager.ChangeVehicleStatusByLicenseNumber(licenseNumber, newStatus);
+                Console.WriteLine("Status has been updated successfully");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Can't change vehicle status");
+                printExceptionStack(exception);
+            }
+        }
+
+        private void inflateVehicleWheels()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("~ Inflate Vehicle Wheels ~");
+                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
+                m_GarageManager.InflateVehicleWheelsPressureToMaxByLicenseNumber(licenseNumber);
+                Console.WriteLine("The wheels has been inflated to the maximum pressure successfully");
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine("Can't inflate vehicle wheels");
+                printExceptionStack(exception);
+            }
+        }
+
+        private void refuelVehicle()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("~ Refuel Vehicle ~");
+                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
+                Console.WriteLine("Choose fuel type:");
+                eFuelType fuelType = (eFuelType)getUserInputFromEnumMenu(new eFuelType());
+                Console.WriteLine("Enter amount of liters:");
+                float fuelLiters = ConsoleInputUI.GetFloatFromUser();
+                m_GarageManager.RefuelVehicleByLicenseNumber(licenseNumber, fuelType, fuelLiters);
+                Console.WriteLine("Vehicle has been refueled successfully");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Can't refuel vehicle");
+                printExceptionStack(exception);
+            }
+        }
+
+        private void chargeElectricVehicle()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("~ Charge Electric Vehicle ~");
+                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
+                Console.WriteLine("Enter the number of minutes you want to recharge:");
+                float minutesToCharge = ConsoleInputUI.GetFloatFromUser();
+                m_GarageManager.ChargeElectricVehicleByLicenseNumber(licenseNumber, minutesToCharge / 60);
+                Console.WriteLine("Vehicle has been charged successfully.");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Can't charge electric vehicle.");
+                printExceptionStack(exception);
+            }
+        }
+
+        private void displayAllVehiclesData()
+        {
+            Console.Clear();
+            Console.WriteLine("~ Display All Vehicles Data ~");
+
+            StringBuilder vehiclesDataList = new StringBuilder();
+            foreach(GarageReport theReport in m_GarageManager.GarageReports.Values)
+            {
+                vehiclesDataList.AppendFormat(
+                    @"
+{0}
+-------------------------
+",
+                    theReport);
+            }
+
+            Console.WriteLine(vehiclesDataList.ToString());
         }
 
         private object[] getSpecialParams(eVehiclesType i_VehiclesType)
@@ -293,30 +317,6 @@ namespace Ex03.ConsoleUI
             return specialParams;
         }
 
-        private void chargeElectricVehicle()
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("~ Charge Electric Vehicle ~");
-                string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
-                Console.WriteLine("Enter the number of minutes you want to recharge:");
-                float minutesToCharge = ConsoleInputUI.GetFloatFromUser();
-                m_GarageManager.ChargeElectricVehicleByLicenseNumber(licenseNumber, minutesToCharge / 60);
-                Console.WriteLine("Vehicle has been charged successfully.");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("Can't charge electric vehicle.");
-                while(exception != null)
-                {
-                    Console.WriteLine(exception.Message);
-                    exception = exception.InnerException;
-                }
-            }
-        }
-
-
         private string buildStrMenuFromEnum(Enum i_Enum)
         {
             StringBuilder menu = new StringBuilder();
@@ -343,6 +343,15 @@ namespace Ex03.ConsoleUI
             Console.Write(buildStrMenuFromEnum(i_Enum));
             string userInputString = Console.ReadLine();
             return int.Parse(userInputString);
+        }
+
+        private void printExceptionStack(Exception i_Exception)
+        {
+            while (i_Exception != null)
+            {
+                Console.WriteLine(i_Exception.Message);
+                i_Exception = i_Exception.InnerException;
+            }
         }
     }
 }

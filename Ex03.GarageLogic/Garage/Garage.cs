@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic.Garage
         {
             if(r_GarageReportDictionary.ContainsKey(i_Vehicle.LicenseNumber))
             {
-                r_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eCarGarageStatus.InRepair;
+                r_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eVehicleGarageStatus.InRepair;
             }
             else
             {
@@ -41,11 +41,11 @@ namespace Ex03.GarageLogic.Garage
             return r_GarageReportDictionary.Keys.ToList();
         }
 
-        public List<string> GetLicenseListOfExistingVehicle(GarageReport.eCarGarageStatus i_Status)
+        public List<string> GetLicenseListOfExistingVehicle(GarageReport.eVehicleGarageStatus i_Status)
         {
-            if(!Enum.IsDefined(typeof(GarageReport.eCarGarageStatus), i_Status))
+            if(!Enum.IsDefined(typeof(GarageReport.eVehicleGarageStatus), i_Status))
             {
-                throw new ArgumentException("Error with eCarGarageStatus conversion");
+                throw new ArgumentException("Error with eVehicleGarageStatus conversion");
             }
 
             List<string> theFilteredLicenseNumberList = new List<string>();
@@ -61,7 +61,7 @@ namespace Ex03.GarageLogic.Garage
             return theFilteredLicenseNumberList;
         }
 
-        public void ChangeVehicleStatusByLicenseNumber(string i_LicenseNumber, GarageReport.eCarGarageStatus i_Status)
+        public void ChangeVehicleStatusByLicenseNumber(string i_LicenseNumber, GarageReport.eVehicleGarageStatus i_Status)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
             theReport.Status = i_Status;

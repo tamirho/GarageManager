@@ -34,8 +34,7 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException(string.Format(
-                        "MaxEnergyCapacity must be a positive number"));
+                    throw new ArgumentException("MaxEnergyCapacity must be a positive number");
                 }
 
                 m_MaxEnergyCapacity = value;
@@ -52,7 +51,7 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 if (value > MaxEnergyCapacity || value < 0)
                 {
-                    throw new ValueOutOfRangeException("Invalid CurrentEnergyAmount ", CurrentEnergyAmount, 0, MaxEnergyCapacity);
+                    throw new ValueOutOfRangeException("Invalid CurrentEnergyAmount ", value, 0, MaxEnergyCapacity);
                 }
 
                 m_CurrentEnergyAmount = value;
@@ -62,6 +61,15 @@ namespace Ex03.GarageLogic.VehicleParts
         internal float GetCurrentEnergyPercentage()
         {
             return 100f * (CurrentEnergyAmount / MaxEnergyCapacity);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Max energy capacity: {0}
+Current energy amount: {1}",
+                m_MaxEnergyCapacity,
+                m_CurrentEnergyAmount);
         }
     }
 }

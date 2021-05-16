@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic.Vehicles
     {
         private eHazardousMaterials m_IsDrivesHazardousMaterials;
         private float m_MaxCapacityWeight;
-
+        
         internal Truck(
             string i_LicenseNumber,
             string i_ModelName,
@@ -73,6 +73,18 @@ namespace Ex03.GarageLogic.Vehicles
 
                 m_MaxCapacityWeight = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Truck:
+{0}
+Hazardous materials details: {1}
+Max capacity weight: {2}",
+                base.ToString(),
+                m_IsDrivesHazardousMaterials,
+                m_MaxCapacityWeight);
         }
     }
 }

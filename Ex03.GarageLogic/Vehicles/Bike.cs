@@ -76,5 +76,16 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+                @"Bike:
+{0}
+License type: {1}
+Engine volume: {2}",
+                base.ToString(),
+                m_LicenseType,
+                m_EngineVolume);
+        }
     }
 }

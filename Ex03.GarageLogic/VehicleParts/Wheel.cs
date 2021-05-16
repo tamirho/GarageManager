@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic.VehicleParts
         private string m_ManufacturerName;
         private float m_CurrentAirPressure;
         private float m_MaxAirPressure;
-
+        
         public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
         {
             ManufacturerName = i_ManufacturerName;
@@ -66,6 +66,14 @@ namespace Ex03.GarageLogic.VehicleParts
 
                 m_MaxAirPressure = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Manufacturer name: {0} | Current air pressure: {1}",
+                m_ManufacturerName,
+                m_CurrentAirPressure);
         }
     }
 }

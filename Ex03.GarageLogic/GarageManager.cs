@@ -15,10 +15,7 @@ namespace Ex03.GarageLogic
             m_Garage = new Garage.Garage();
         }
 
-        public Dictionary<string, GarageReport> GetGarageReports()
-        {
-            return m_Garage.GarageReports;
-        }
+
 
         public Vehicle CreateVehicle(
             eVehiclesType i_Type,
@@ -58,12 +55,12 @@ namespace Ex03.GarageLogic
             return m_Garage.GetLicenseListOfExistingVehicle();
         }
 
-        public List<string> GetLicenseListOfExistingVehicle(GarageReport.eCarGarageStatus i_Status)
+        public List<string> GetLicenseListOfExistingVehicle(GarageReport.eVehicleGarageStatus i_Status)
         {
             return m_Garage.GetLicenseListOfExistingVehicle(i_Status);
         }
 
-        public void ChangeVehicleStatusByLicenseNumber(string i_LicenseNumber, GarageReport.eCarGarageStatus i_Status)
+        public void ChangeVehicleStatusByLicenseNumber(string i_LicenseNumber, GarageReport.eVehicleGarageStatus i_Status)
         {
             m_Garage.ChangeVehicleStatusByLicenseNumber(i_LicenseNumber, i_Status);
         }
@@ -88,6 +85,12 @@ namespace Ex03.GarageLogic
             return m_Garage.CheckIfExistingVehicleReport(i_LicenseNumber);
         }
 
-
+        public Dictionary<string, GarageReport> GarageReports
+        {
+            get
+            {
+                return m_Garage.GarageReports;
+            }
+        }
     }
 }

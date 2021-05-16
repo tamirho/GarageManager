@@ -44,5 +44,15 @@ namespace Ex03.GarageLogic.VehicleParts
 
             CurrentEnergyAmount += i_FuelLiters;
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Fuel Energy Unit:
+{0}
+Fuel type: {1}",
+                base.ToString(),
+                m_FuelType);
+        }
     }
 }
