@@ -21,6 +21,7 @@ namespace Ex03.GarageLogic.VehicleParts
         internal EnergyUnit(float i_MaxEnergyCapacity)
         {
             MaxEnergyCapacity = i_MaxEnergyCapacity;
+            CurrentEnergyAmount = MaxEnergyCapacity * 0.75f;
         }
 
         internal float MaxEnergyCapacity

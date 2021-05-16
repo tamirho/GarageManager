@@ -8,43 +8,44 @@ namespace Ex03.GarageLogic.Garage
 {
     public class Garage
     {
-        private Dictionary<string, GarageReport> m_GarageReportDictionary;
+        private readonly Dictionary<string, GarageReport> r_GarageReportDictionary;
 
         public Garage()
         {
-            m_GarageReportDictionary = new Dictionary<string, GarageReport>();
+            r_GarageReportDictionary = new Dictionary<string, GarageReport>();
         }
 
         public Dictionary<string, GarageReport> GarageReports
         {
             get
             {
-                return m_GarageReportDictionary;
+                return r_GarageReportDictionary;
             }
         }
 
         public void InsertNewVehicle(string i_OwnerName, string i_OwnersPhoneNumber, Vehicle i_Vehicle)
         {
-            if(m_GarageReportDictionary.ContainsKey(i_Vehicle.LicenseNumber))
+            if(r_GarageReportDictionary.ContainsKey(i_Vehicle.LicenseNumber))
             {
-                m_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eCarGarageStatus.InRepair;
+                r_GarageReportDictionary[i_Vehicle.LicenseNumber].Status = GarageReport.eCarGarageStatus.InRepair;
             }
             else
             {
                 GarageReport newGarageReport = new GarageReport(i_OwnerName, i_OwnersPhoneNumber, i_Vehicle);
-                m_GarageReportDictionary.Add(i_Vehicle.LicenseNumber, newGarageReport);
+                r_GarageReportDictionary.Add(i_Vehicle.LicenseNumber, newGarageReport);
             }
         }
 
         public List<string> GetLicenseListOfExistingVehicle()
         {
-            return m_GarageReportDictionary.Keys.ToList();
+            return r_GarageReportDictionary.Keys.ToList();
         }
 
         public List<string> GetLicenseListOfExistingVehicle(GarageReport.eCarGarageStatus i_Status)
         {
             List<string> theFilteredLicenseNumberList = new List<string>();
-            foreach(KeyValuePair<string, GarageReport> pairReport in m_GarageReportDictionary)
+
+            foreach(KeyValuePair<string, GarageReport> pairReport in r_GarageReportDictionary)
             {
                 if(pairReport.Value.Status == i_Status)
                 {
@@ -52,7 +53,7 @@ namespace Ex03.GarageLogic.Garage
                 }
             }
 
-            return theFilteredLicenseNumberList.;
+            return theFilteredLicenseNumberList;
         }
 
         public void ChangeVehicleStatusByLicenseNumber(string i_LicenseNumber, GarageReport.eCarGarageStatus i_Status)
@@ -64,7 +65,7 @@ namespace Ex03.GarageLogic.Garage
         public void InflateVehicleWheelsPressureToMaxByLicenseNumber(string i_LicenseNumber)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
-            foreach (Wheel theWheel in theReport.Vehicle.WheelsList)
+            foreach (Wheel theWheel in theReport.Vehicle.Wheels.WheelsList)
             {
                 theWheel.AddAirPressure(theWheel.MaxAirPressure - theWheel.CurrentAirPressure);
             }
@@ -118,14 +119,25 @@ namespace Ex03.GarageLogic.Garage
                     "Invalid license number, Null was given",
                     new ArgumentNullException());
             }
-            if(!m_GarageReportDictionary.ContainsKey(i_LicenseNumber))
+            if(!r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
             {
                 throw new GarageException(
                     string.Format("Car with {0} license number can't be found in the garage", i_LicenseNumber),
                     new KeyNotFoundException());
             }
 
-            return m_GarageReportDictionary[i_LicenseNumber];
+            return r_GarageReportDictionary[i_LicenseNumber];
         }
+
+        //public GarageReport GetExsitingVehicleReportOrNull(string i_LicenseNumber)
+        //{
+        //    GarageReport theReport = null;
+        //    if (i_LicenseNumber != null && r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
+        //    {
+        //        theReport = r_GarageReportDictionary[i_LicenseNumber];
+        //    }
+            
+        //    return theReport;
+        //}
     }
 }
