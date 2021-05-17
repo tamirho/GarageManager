@@ -9,9 +9,8 @@ namespace Ex03.GarageLogic.Garage
         private string m_OwnersPhoneNumber;
         private Vehicle m_Vehicle;
         private eVehicleGarageStatus m_Status;
-        
 
-        public GarageReport(string i_OwnerName, string i_OwnersPhoneNumber,Vehicle i_Vehicle)
+        public GarageReport(string i_OwnerName, string i_OwnersPhoneNumber, Vehicle i_Vehicle)
         {
             OwnerName = i_OwnerName;
             OwnersPhoneNumber = i_OwnersPhoneNumber;
@@ -26,7 +25,6 @@ namespace Ex03.GarageLogic.Garage
             Paid
         }
 
-
         internal eVehicleGarageStatus Status
         {
             get
@@ -35,7 +33,7 @@ namespace Ex03.GarageLogic.Garage
             }
             set
             {
-                if (!Enum.IsDefined(typeof(eVehicleGarageStatus), value))
+                if(!Enum.IsDefined(typeof(eVehicleGarageStatus), value))
                 {
                     throw new ArgumentException("Error with CarGarageStatus enum convert ");
                 }
@@ -95,5 +93,4 @@ Vehicle status: {2}
                 m_Vehicle);
         }
     }
-
 }

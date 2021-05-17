@@ -4,32 +4,32 @@ namespace Ex03.GarageLogic.Exceptions
 {
     public class ValueOutOfRangeException : Exception
     {
-        private float m_MaxValue;
-        private float m_MinValue;
-        private float m_InvalidValue;
-        private static string m_ExceptionMessage = " ValueOutOfRangeException: {0} is not in the range between {1} to {2}";
+        private static readonly string sr_ExceptionMessage = " ValueOutOfRangeException: {0} is not in the range between {1} to {2}";
+        private readonly float r_MaxValue;
+        private readonly float r_MinValue;
+        private readonly float r_InvalidValue;
 
         public ValueOutOfRangeException(
             Exception i_InnerException,
             float i_InvalidValue,
             float i_MinValue,
             float i_MaxValue)
-            : base(string.Format(m_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue), i_InnerException)
+            : base(string.Format(sr_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue), i_InnerException)
         {
-            m_MaxValue = i_MaxValue;
-            m_MinValue = i_MinValue;
-            m_InvalidValue = i_InvalidValue;
+            r_MaxValue = i_MaxValue;
+            r_MinValue = i_MinValue;
+            r_InvalidValue = i_InvalidValue;
         }
 
         public ValueOutOfRangeException(
             float i_InvalidValue,
             float i_MinValue,
             float i_MaxValue)
-            : base(string.Format(m_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue))
+            : base(string.Format(sr_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue))
         {
-            m_MaxValue = i_MaxValue;
-            m_MinValue = i_MinValue;
-            m_InvalidValue = i_InvalidValue;
+            r_MaxValue = i_MaxValue;
+            r_MinValue = i_MinValue;
+            r_InvalidValue = i_InvalidValue;
         }
 
         public ValueOutOfRangeException(
@@ -37,18 +37,18 @@ namespace Ex03.GarageLogic.Exceptions
             float i_InvalidValue,
             float i_MinValue,
             float i_MaxValue)
-            : base(string.Format(i_ExceptionMessage + m_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue))
+            : base(string.Format(i_ExceptionMessage + sr_ExceptionMessage, i_InvalidValue, i_MinValue, i_MaxValue))
         {
-            m_MaxValue = i_MaxValue;
-            m_MinValue = i_MinValue;
-            m_InvalidValue = i_InvalidValue;
+            r_MaxValue = i_MaxValue;
+            r_MinValue = i_MinValue;
+            r_InvalidValue = i_InvalidValue;
         }
 
         public float InvalidValue
         {
             get
             {
-                return m_InvalidValue;
+                return r_InvalidValue;
             }
         }
 
@@ -56,7 +56,7 @@ namespace Ex03.GarageLogic.Exceptions
         {
             get
             {
-                return m_MaxValue;
+                return r_MaxValue;
             }
         }
 
@@ -64,7 +64,7 @@ namespace Ex03.GarageLogic.Exceptions
         {
             get
             {
-                return m_MinValue;
+                return r_MinValue;
             }
         }
     }

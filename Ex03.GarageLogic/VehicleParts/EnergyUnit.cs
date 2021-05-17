@@ -5,8 +5,8 @@ namespace Ex03.GarageLogic.VehicleParts
 {
     internal abstract class EnergyUnit
     {
-        protected float m_MaxEnergyCapacity;
-        protected float m_CurrentEnergyAmount;
+        private float m_MaxEnergyCapacity;
+        private float m_CurrentEnergyAmount;
 
         internal EnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount)
         {

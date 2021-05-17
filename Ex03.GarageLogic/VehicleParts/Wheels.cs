@@ -41,8 +41,10 @@ Number of wheels: {0}",
                 WheelsNum);
             foreach(Wheel wheel in m_WheelsList)
             {
-                wheelStringBuilder.AppendFormat(@"
-{0}",wheel);
+                wheelStringBuilder.AppendFormat(
+                    @"
+{0}",
+                    wheel);
             }
 
             return wheelStringBuilder.ToString();

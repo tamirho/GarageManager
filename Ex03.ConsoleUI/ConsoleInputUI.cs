@@ -16,6 +16,7 @@ namespace Ex03.ConsoleUI
                     throw new FormatException("Invalid License Number Format");
                 }
             }
+
             return licenseNumber;
         }
 

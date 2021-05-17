@@ -92,6 +92,5 @@ Model name: {1}
                 m_Wheels,
                 m_EnergyUnit);
         }
-
     }
 }

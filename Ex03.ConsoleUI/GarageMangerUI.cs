@@ -34,18 +34,36 @@ namespace Ex03.ConsoleUI
             bool exitFlag = false;
             do
             {
-                Console.WriteLine("~ Main menu ~");
-                Console.WriteLine(buildStrMenuFromEnum(new eMainMenuOptions()));
+                Console.WriteLine(
+                    string.Format(
+                        @"~ Main menu ~
+{0}
+Choose an option:",
+                        buildStrMenuFromEnum(new eMainMenuOptions())));
 
-                string userInputString = Console.ReadLine();
-                int userInputInt;
-                while (!int.TryParse(userInputString, out userInputInt)
-                       || !Enum.IsDefined(typeof(eMainMenuOptions), userInputInt))
+                bool validInput;
+                int userInput = 0;
+                do
                 {
-                    Console.WriteLine("Invalid input, Please try again.");
-                    userInputString = Console.ReadLine();
+                    try
+                    {
+                        userInput = ConsoleInputUI.GetIntFromUser();
+                        validInput = Enum.IsDefined(typeof(eMainMenuOptions), userInput);
+                    }
+                    catch(Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                        validInput = false;
+                    }
+
+                    if(!validInput)
+                    {
+                        Console.WriteLine("Invalid input, Please try again.");
+                    }
                 }
-                eMainMenuOptions userChoice = (eMainMenuOptions)userInputInt;
+                while(!validInput);
+
+                eMainMenuOptions userChoice = (eMainMenuOptions)userInput;
 
                 switch(userChoice)
                 {
@@ -77,7 +95,8 @@ namespace Ex03.ConsoleUI
                         Console.WriteLine("Invalid input");
                         break;
                 }
-                Console.Write("To continue press any key");
+
+                Console.Write("Press any key to continue");
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -122,7 +141,6 @@ namespace Ex03.ConsoleUI
                         licenseNumber,
                         GarageReport.eVehicleGarageStatus.InRepair);
                     Console.WriteLine("The vehicle is already in the garage, the status has been changed to InRepair");
-
                 }
             }
             catch(Exception exception)
@@ -329,6 +347,7 @@ Licenses list:");
                     {
                         option.Append(" ");
                     }
+
                     option.Append(letter);
                 }
 
@@ -340,7 +359,12 @@ Licenses list:");
 
         private int getUserInputFromEnumMenu(Enum i_Enum)
         {
-            Console.Write(buildStrMenuFromEnum(i_Enum));
+            Console.WriteLine(
+                string.Format(
+                    @"{0}
+Choose an option:",
+                    buildStrMenuFromEnum(i_Enum)));
+
             string userInputString = Console.ReadLine();
             return int.Parse(userInputString);
         }

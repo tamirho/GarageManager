@@ -124,6 +124,7 @@ namespace Ex03.GarageLogic.Garage
                     "Invalid license number, Null was given",
                     new ArgumentNullException());
             }
+
             if(!r_GarageReportDictionary.ContainsKey(i_LicenseNumber))
             {
                 throw new GarageException(

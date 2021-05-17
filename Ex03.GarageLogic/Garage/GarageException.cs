@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Ex03.GarageLogic.Garage
 {
     public class GarageException : Exception
