@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
-using System.Threading;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.Garage;
 using Ex03.GarageLogic.VehicleParts;
@@ -12,11 +10,11 @@ namespace Ex03.ConsoleUI
 {
     public class GarageMangerUI
     {
-        private readonly GarageManager m_GarageManager;
+        private readonly GarageManager r_GarageManager;
 
         public GarageMangerUI()
         {
-            m_GarageManager = new GarageManager();
+            r_GarageManager = new GarageManager();
         }
 
         public enum eMainMenuOptions
@@ -94,20 +92,20 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("~ Insert Vehicle To Garage ~");
                 string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
 
-                if(!m_GarageManager.CheckIfExistingVehicleReport(licenseNumber))
+                if(!r_GarageManager.CheckIfExistingVehicleReport(licenseNumber))
                 {
                     Console.WriteLine("Enter owner name:");
-                    string ownerName = ConsoleInputUI.GetAllLettersStringFromUser();
+                    string ownerName = ConsoleInputUI.GetStringFromUser();
                     string ownersPhoneNumber = ConsoleInputUI.GetPhoneNumberFromUser();
                     Console.WriteLine("Please choose vehicle type:");
                     eVehiclesType vehiclesType = (eVehiclesType)getUserInputFromEnumMenu(new eVehiclesType());
                     Console.WriteLine("Enter model name:");
-                    string modelName = Console.ReadLine();
+                    string modelName = ConsoleInputUI.GetStringFromUser();
                     Console.WriteLine("Enter wheels manufacturer name:");
-                    string wheelsManufacturerName = ConsoleInputUI.GetAllLettersStringFromUser();
+                    string wheelsManufacturerName = ConsoleInputUI.GetStringFromUser();
                     object[] specialParams = getSpecialParams(vehiclesType);
 
-                    m_GarageManager.CreateAndInsertNewVehicle(
+                    r_GarageManager.CreateAndInsertNewVehicle(
                         ownerName,
                         ownersPhoneNumber,
                         vehiclesType,
@@ -120,7 +118,7 @@ namespace Ex03.ConsoleUI
                 }
                 else
                 {
-                    m_GarageManager.ChangeVehicleStatusByLicenseNumber(
+                    r_GarageManager.ChangeVehicleStatusByLicenseNumber(
                         licenseNumber,
                         GarageReport.eVehicleGarageStatus.InRepair);
                     Console.WriteLine("The vehicle is already in the garage, the status has been changed to InRepair");
@@ -156,7 +154,7 @@ namespace Ex03.ConsoleUI
                 switch(menuOption)
                 {
                     case eVehiclesLicensesMenuOptions.DisplayAllVehiclesLicenses:
-                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle();
+                        theLicenseList = r_GarageManager.GetLicenseListOfExistingVehicle();
                         break;
                     case eVehiclesLicensesMenuOptions.DisplayVehiclesLicensesByStatus:
                         Console.WriteLine("Choose status: ");
@@ -164,13 +162,15 @@ namespace Ex03.ConsoleUI
                             (GarageReport.eVehicleGarageStatus)getUserInputFromEnumMenu(
                                 new GarageReport.eVehicleGarageStatus());
 
-                        theLicenseList = m_GarageManager.GetLicenseListOfExistingVehicle(statusFilter);
+                        theLicenseList = r_GarageManager.GetLicenseListOfExistingVehicle(statusFilter);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
-                foreach(string licensesNumber in theLicenseList)
+                Console.WriteLine(@"
+Licenses list:");
+                foreach (string licensesNumber in theLicenseList)
                 {
                     Console.WriteLine(licensesNumber);
                 }
@@ -192,7 +192,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Choose status: ");
                 GarageReport.eVehicleGarageStatus newStatus =
                     (GarageReport.eVehicleGarageStatus)getUserInputFromEnumMenu(new GarageReport.eVehicleGarageStatus());
-                m_GarageManager.ChangeVehicleStatusByLicenseNumber(licenseNumber, newStatus);
+                r_GarageManager.ChangeVehicleStatusByLicenseNumber(licenseNumber, newStatus);
                 Console.WriteLine("Status has been updated successfully");
             }
             catch (Exception exception)
@@ -209,7 +209,7 @@ namespace Ex03.ConsoleUI
                 Console.Clear();
                 Console.WriteLine("~ Inflate Vehicle Wheels ~");
                 string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
-                m_GarageManager.InflateVehicleWheelsPressureToMaxByLicenseNumber(licenseNumber);
+                r_GarageManager.InflateVehicleWheelsPressureToMaxByLicenseNumber(licenseNumber);
                 Console.WriteLine("The wheels has been inflated to the maximum pressure successfully");
             }
             catch(Exception exception)
@@ -230,7 +230,7 @@ namespace Ex03.ConsoleUI
                 eFuelType fuelType = (eFuelType)getUserInputFromEnumMenu(new eFuelType());
                 Console.WriteLine("Enter amount of liters:");
                 float fuelLiters = ConsoleInputUI.GetFloatFromUser();
-                m_GarageManager.RefuelVehicleByLicenseNumber(licenseNumber, fuelType, fuelLiters);
+                r_GarageManager.RefuelVehicleByLicenseNumber(licenseNumber, fuelType, fuelLiters);
                 Console.WriteLine("Vehicle has been refueled successfully");
             }
             catch (Exception exception)
@@ -249,7 +249,7 @@ namespace Ex03.ConsoleUI
                 string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
                 Console.WriteLine("Enter the number of minutes you want to recharge:");
                 float minutesToCharge = ConsoleInputUI.GetFloatFromUser();
-                m_GarageManager.ChargeElectricVehicleByLicenseNumber(licenseNumber, minutesToCharge / 60);
+                r_GarageManager.ChargeElectricVehicleByLicenseNumber(licenseNumber, minutesToCharge / 60);
                 Console.WriteLine("Vehicle has been charged successfully.");
             }
             catch (Exception exception)
@@ -265,7 +265,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("~ Display All Vehicles Data ~");
 
             StringBuilder vehiclesDataList = new StringBuilder();
-            foreach(GarageReport theReport in m_GarageManager.GarageReports.Values)
+            foreach(GarageReport theReport in r_GarageManager.GarageReports.Values)
             {
                 vehiclesDataList.AppendFormat(
                     @"

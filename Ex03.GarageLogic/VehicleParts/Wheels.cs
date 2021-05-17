@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic.VehicleParts
 {
-    class Wheels
+    internal class Wheels
     {
         private List<Wheel> m_WheelsList;
-
-
 
         public Wheels(string i_ManufacturerName, int i_WheelsNum, float i_MaxAirPressure)
         {
