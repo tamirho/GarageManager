@@ -5,8 +5,8 @@ namespace Ex03.GarageLogic.VehicleParts
 {
     internal abstract class EnergyUnit
     {
-        private float m_MaxEnergyCapacity;
-        private float m_CurrentEnergyAmount;
+        protected float m_MaxEnergyCapacity;
+        protected float m_CurrentEnergyAmount;
 
         internal EnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount)
         {
@@ -26,11 +26,11 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 return m_MaxEnergyCapacity;
             }
-            private set
+            set
             {
-                if (value < 0)
+                if (value < 0  || value < CurrentEnergyAmount)
                 {
-                    throw new ArgumentException("MaxEnergyCapacity must be a positive number");
+                    throw new ArgumentException("Invalid MaxEnergyCapacity");
                 }
 
                 m_MaxEnergyCapacity = value;

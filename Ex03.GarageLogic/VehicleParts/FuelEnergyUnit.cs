@@ -6,13 +6,13 @@ namespace Ex03.GarageLogic.VehicleParts
     {
         private eFuelType m_FuelType;
 
-        public FuelEnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount, eFuelType i_FuelType)
+        internal FuelEnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount, eFuelType i_FuelType)
             : base(i_MaxEnergyCapacity, i_CurrentEnergyAmount)
         {
             FuelType = i_FuelType;
         }
 
-        public FuelEnergyUnit(float i_MaxEnergyCapacity, eFuelType i_FuelType)
+        internal FuelEnergyUnit(float i_MaxEnergyCapacity, eFuelType i_FuelType)
             : base(i_MaxEnergyCapacity)
         {
             FuelType = i_FuelType;

@@ -41,7 +41,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="eVehiclesType.cs" />
-    <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
+    <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="VehicleCreator\VehicleCreatorException.cs" />
     <Compile Include="Garage\Garage.cs" />
     <Compile Include="GarageManager.cs" />

@@ -2,12 +2,12 @@
 {
     internal class ElectricEnergyUnit : EnergyUnit
     {
-        public ElectricEnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount)
+        internal ElectricEnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount)
             : base(i_MaxEnergyCapacity, i_CurrentEnergyAmount)
         {
         }
 
-        public ElectricEnergyUnit(float i_MaxEnergyCapacity)
+        internal ElectricEnergyUnit(float i_MaxEnergyCapacity)
             : base(i_MaxEnergyCapacity)
         {
         }

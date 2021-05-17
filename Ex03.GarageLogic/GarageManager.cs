@@ -14,8 +14,6 @@ namespace Ex03.GarageLogic
             r_Garage = new Garage.Garage();
         }
 
-
-
         public Vehicle CreateVehicle(
             eVehiclesType i_Type,
             string i_LicenseNumber,

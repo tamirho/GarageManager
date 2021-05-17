@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic.VehicleParts
     {
         private List<Wheel> m_WheelsList;
 
-        public Wheels(string i_ManufacturerName, int i_WheelsNum, float i_MaxAirPressure)
+        internal Wheels(string i_ManufacturerName, int i_WheelsNum, float i_MaxAirPressure)
         {
             m_WheelsList = new List<Wheel>();
             for(int i = 0; i < i_WheelsNum; i++)
@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        public int WheelsNum
+        internal int WheelsNum
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        public List<Wheel> WheelsList
+        internal List<Wheel> WheelsList
         {
             get
             {
