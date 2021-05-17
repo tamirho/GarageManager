@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ex03.GarageLogic.Exceptions;
 
 namespace Ex03.GarageLogic.VehicleParts
 {
     internal abstract class EnergyUnit
     {
-        private float m_MaxEnergyCapacity;
-        private float m_CurrentEnergyAmount;
+        protected float m_MaxEnergyCapacity;
+        protected float m_CurrentEnergyAmount;
 
         internal EnergyUnit(float i_MaxEnergyCapacity, float i_CurrentEnergyAmount)
         {
@@ -30,12 +26,11 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 return m_MaxEnergyCapacity;
             }
-            private set
+            set
             {
-                if (value < 0)
+                if (value < 0  || value < CurrentEnergyAmount)
                 {
-                    throw new ArgumentException(string.Format(
-                        "MaxEnergyCapacity must be a positive number"));
+                    throw new ArgumentException("Invalid MaxEnergyCapacity");
                 }
 
                 m_MaxEnergyCapacity = value;
@@ -52,7 +47,7 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 if (value > MaxEnergyCapacity || value < 0)
                 {
-                    throw new ValueOutOfRangeException("Invalid CurrentEnergyAmount ", CurrentEnergyAmount, 0, MaxEnergyCapacity);
+                    throw new ValueOutOfRangeException("Invalid CurrentEnergyAmount ", value, 0, MaxEnergyCapacity);
                 }
 
                 m_CurrentEnergyAmount = value;
@@ -62,6 +57,15 @@ namespace Ex03.GarageLogic.VehicleParts
         internal float GetCurrentEnergyPercentage()
         {
             return 100f * (CurrentEnergyAmount / MaxEnergyCapacity);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Max energy capacity: {0}
+Current energy amount: {1}",
+                m_MaxEnergyCapacity,
+                m_CurrentEnergyAmount);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -25,8 +24,8 @@ namespace Ex03.GarageLogic.Vehicles
         internal Bike(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit, object[] i_VehicleSpecialParams)
             : base(i_LicenseNumber, i_ModelName, i_Wheels, i_EnergyUnit)
         {
-            m_LicenseType = (eLicenseType)i_VehicleSpecialParams[(int)eBikeSpecialParams.LicenseType];
-            m_EngineVolume = (int)i_VehicleSpecialParams[(int)eBikeSpecialParams.EngineVolume];
+            LicenseType = (eLicenseType)i_VehicleSpecialParams[(int)eBikeSpecialParams.LicenseType];
+            EngineVolume = (int)i_VehicleSpecialParams[(int)eBikeSpecialParams.EngineVolume];
         }
 
         public enum eBikeSpecialParams
@@ -37,7 +36,7 @@ namespace Ex03.GarageLogic.Vehicles
 
         public enum eLicenseType
         {
-            A,
+            A = 1,
             AA,
             B1,
             BB
@@ -77,5 +76,16 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+                @"Bike:
+{0}
+License type: {1}
+Engine volume: {2}",
+                base.ToString(),
+                m_LicenseType,
+                m_EngineVolume);
+        }
     }
 }

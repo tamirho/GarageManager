@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Channels;
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -38,7 +36,7 @@ namespace Ex03.GarageLogic.Vehicles
 
         public enum eCarColor
         {
-            Red,
+            Red = 1,
             Silver,
             White,
             Black
@@ -46,7 +44,7 @@ namespace Ex03.GarageLogic.Vehicles
 
         public enum eNumberOfCarDoors
         {
-            Two,
+            Two = 1,
             Three,
             Four,
             Five
@@ -84,6 +82,18 @@ namespace Ex03.GarageLogic.Vehicles
 
                 m_NumberOfDoors = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Car:
+{0}
+Color: {1}
+Number of doors: {2}",
+                base.ToString(),
+                m_Color,
+                m_NumberOfDoors);
         }
     }
 }

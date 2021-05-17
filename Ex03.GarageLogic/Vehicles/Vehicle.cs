@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -79,6 +78,19 @@ namespace Ex03.GarageLogic.Vehicles
             {
                 return m_EnergyUnit.GetCurrentEnergyPercentage();
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"License number: {0}
+Model name: {1}
+{2}
+{3}",
+                m_LicenseNumber,
+                m_ModelName,
+                m_Wheels,
+                m_EnergyUnit);
         }
 
     }

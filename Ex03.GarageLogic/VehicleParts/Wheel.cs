@@ -9,19 +9,19 @@ namespace Ex03.GarageLogic.VehicleParts
         private float m_CurrentAirPressure;
         private float m_MaxAirPressure;
 
-        public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
+        internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
         {
             ManufacturerName = i_ManufacturerName;
             MaxAirPressure = i_MaxAirPressure;
             CurrentAirPressure = i_CurrentAirPressure;
         }
 
-        public void AddAirPressure(float i_AirPressure)
+        internal void AddAirPressure(float i_AirPressure)
         {
             CurrentAirPressure = m_CurrentAirPressure + i_AirPressure;
         }
 
-        public string ManufacturerName
+        internal string ManufacturerName
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        public float CurrentAirPressure
+        internal float CurrentAirPressure
         {
             get
             {
@@ -51,21 +51,29 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        public float MaxAirPressure
+        internal float MaxAirPressure
         {
             get
             {
                 return m_MaxAirPressure;
             }
-            private set
+            set
             {
-                if (value < 0)
+                if (value < 0 || value < MaxAirPressure)
                 {
                     throw new ArgumentException("MaxAirPressure must be a positive integer");
                 }
 
                 m_MaxAirPressure = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                @"Manufacturer name: {0} | Current air pressure: {1}",
+                m_ManufacturerName,
+                m_CurrentAirPressure);
         }
     }
 }
