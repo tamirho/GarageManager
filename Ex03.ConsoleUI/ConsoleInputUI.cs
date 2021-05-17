@@ -65,7 +65,7 @@ namespace Ex03.ConsoleUI
 
             if (userInput.Length == 0)
             {
-                throw new FormatException("The input does not match the format");
+                throw new FormatException("Empty input is invalid");
             }
 
             return userInput;
