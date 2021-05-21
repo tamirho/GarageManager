@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic.Vehicles
@@ -10,18 +11,20 @@ namespace Ex03.GarageLogic.Vehicles
         private Wheels m_Wheels;
         private EnergyUnit m_EnergyUnit;
 
+        internal Vehicle() {}
+
+        internal Vehicle(string i_LicenseNumber, string i_ModelName)
+        {
+            LicenseNumber = i_LicenseNumber;
+            ModelName = i_ModelName;
+        }
+
         internal Vehicle(string i_LicenseNumber, string i_ModelName, Wheels i_Wheels, EnergyUnit i_EnergyUnit)
         {
             LicenseNumber = i_LicenseNumber;
             ModelName = i_ModelName;
             Wheels = i_Wheels;
             EnergyUnit = i_EnergyUnit;
-        }
-
-        internal Vehicle(string i_LicenseNumber, string i_ModelName)
-        {
-            LicenseNumber = i_LicenseNumber;
-            ModelName = i_ModelName;
         }
 
         public string LicenseNumber
@@ -48,25 +51,25 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-        internal Wheels Wheels
+        public Wheels Wheels
         {
             get
             {
                 return m_Wheels;
             }
-            set
+            internal set
             {
                 m_Wheels = value;
             }
         }
 
-        internal EnergyUnit EnergyUnit
+        public EnergyUnit EnergyUnit
         {
             get
             {
                 return m_EnergyUnit;
             }
-            set
+            internal set
             {
                 m_EnergyUnit = value;
             }
@@ -79,6 +82,9 @@ namespace Ex03.GarageLogic.Vehicles
                 return m_EnergyUnit.GetCurrentEnergyPercentage();
             }
         }
+
+        public abstract Tuple<string, object, Type>[] GetSpecialParamsDescriptions();
+        public abstract void SetSpecialParams(object[] i_SpecialParamsInputs);
 
         public override string ToString()
         {

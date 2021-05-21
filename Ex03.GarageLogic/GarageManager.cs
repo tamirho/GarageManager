@@ -14,32 +14,9 @@ namespace Ex03.GarageLogic
             r_Garage = new Garage.Garage();
         }
 
-        public Vehicle CreateVehicle(
-            eVehiclesType i_Type,
-            string i_LicenseNumber,
-            string i_ModelName,
-            string i_WheelsManufacturerName,
-            object[] i_VehicleSpecialParams)
+        public Vehicle CreateVehicle(VehicleCreator.VehicleCreator.eVehiclesType i_Type)
         {
-            return VehicleCreator.VehicleCreator.CreateVehicle(
-                 i_Type,
-                 i_LicenseNumber,
-                 i_ModelName,
-                 i_WheelsManufacturerName,
-                 i_VehicleSpecialParams);
-        }
-
-        public void CreateAndInsertNewVehicle(
-            string i_OwnerName,
-            string i_OwnersPhoneNumber,
-            eVehiclesType i_Type,
-            string i_LicenseNumber,
-            string i_ModelName,
-            string i_WheelsManufacturerName,
-            object[] i_VehicleSpecialParams)
-        {
-            Vehicle newVehicle = CreateVehicle(i_Type, i_LicenseNumber, i_ModelName, i_WheelsManufacturerName, i_VehicleSpecialParams);
-            InsertVehicleToGarage(i_OwnerName, i_OwnersPhoneNumber, newVehicle);
+            return VehicleCreator.VehicleCreator.CreateVehicle(i_Type);
         }
 
         public void InsertVehicleToGarage(string i_OwnerName, string i_OwnersPhoneNumber, Vehicle i_Vehicle)
@@ -67,7 +44,7 @@ namespace Ex03.GarageLogic
             r_Garage.InflateVehicleWheelsPressureToMaxByLicenseNumber(i_LicenseNumber);
         }
 
-        public void RefuelVehicleByLicenseNumber(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelLiters)
+        public void RefuelVehicleByLicenseNumber(string i_LicenseNumber, FuelEnergyUnit.eFuelType i_FuelType, float i_FuelLiters)
         {
             r_Garage.RefuelVehicleByLicenseNumber(i_LicenseNumber, i_FuelType, i_FuelLiters);
         }

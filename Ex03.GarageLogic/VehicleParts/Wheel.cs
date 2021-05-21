@@ -3,7 +3,7 @@ using Ex03.GarageLogic.Exceptions;
 
 namespace Ex03.GarageLogic.VehicleParts
 {
-    internal class Wheel
+    public class Wheel
     {
         private string m_ManufacturerName;
         private float m_CurrentAirPressure;
@@ -16,12 +16,25 @@ namespace Ex03.GarageLogic.VehicleParts
             CurrentAirPressure = i_CurrentAirPressure;
         }
 
-        internal void AddAirPressure(float i_AirPressure)
+        internal Wheel(string i_ManufacturerName, float i_MaxAirPressure)
+        {
+            ManufacturerName = i_ManufacturerName;
+            MaxAirPressure = i_MaxAirPressure;
+            CurrentAirPressure = 0;
+        }
+
+        internal Wheel(float i_MaxAirPressure)
+        {
+            MaxAirPressure = i_MaxAirPressure;
+            CurrentAirPressure = 0;
+        }
+
+        public void AddAirPressure(float i_AirPressure)
         {
             CurrentAirPressure = m_CurrentAirPressure + i_AirPressure;
         }
 
-        internal string ManufacturerName
+        public string ManufacturerName
         {
             get
             {
@@ -34,7 +47,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        internal float CurrentAirPressure
+        public float CurrentAirPressure
         {
             get
             {
@@ -57,7 +70,7 @@ namespace Ex03.GarageLogic.VehicleParts
             {
                 return m_MaxAirPressure;
             }
-            set
+            private set
             {
                 if (value < 0 || value < MaxAirPressure)
                 {

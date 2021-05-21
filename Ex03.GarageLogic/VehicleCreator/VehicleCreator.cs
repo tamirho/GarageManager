@@ -6,12 +6,16 @@ namespace Ex03.GarageLogic.VehicleCreator
 {
     public class VehicleCreator
     {
-        public static Vehicle CreateVehicle(
-            eVehiclesType i_Type,
-            string i_LicenseNumber,
-            string i_ModelName,
-            string i_WheelsManufacturerName,
-            object[] i_VehicleSpecialParams)
+        public enum eVehiclesType
+        {
+            NormalBike = 1,
+            ElectricBike,
+            NormalCar,
+            ElectricCar,
+            Truck
+        }
+
+        public static Vehicle CreateVehicle(eVehiclesType i_Type)
         {
             Vehicle theVehicle;
             try
@@ -19,44 +23,29 @@ namespace Ex03.GarageLogic.VehicleCreator
                 switch(i_Type)
                 {
                     case eVehiclesType.NormalBike:
-                        theVehicle = new Bike(
-                            i_LicenseNumber,
-                            i_ModelName,
-                            new Wheels(i_WheelsManufacturerName, k_BikeWheelsNumber, k_BikeWheelMaxAirCapacity),
-                            new FuelEnergyUnit(k_NormalBikeMaxFuelCapacity, k_NormalBikeFuelType),
-                            i_VehicleSpecialParams);
+                        theVehicle = new Bike();
+                        theVehicle.Wheels = new Wheels(k_BikeWheelsNumber, k_BikeWheelMaxAirCapacity);
+                        theVehicle.EnergyUnit = new FuelEnergyUnit(k_NormalBikeMaxFuelCapacity, k_NormalBikeFuelType);
                         break;
                     case eVehiclesType.ElectricBike:
-                        theVehicle = new Bike(
-                            i_LicenseNumber,
-                            i_ModelName,
-                            new Wheels(i_WheelsManufacturerName, k_BikeWheelsNumber, k_BikeWheelMaxAirCapacity),
-                            new ElectricEnergyUnit(k_ElectricBikeMaxBatteryCapacity),
-                            i_VehicleSpecialParams);
+                        theVehicle = new Bike();
+                        theVehicle.Wheels = new Wheels(k_BikeWheelsNumber, k_BikeWheelMaxAirCapacity);
+                        theVehicle.EnergyUnit = new ElectricEnergyUnit(k_ElectricBikeMaxBatteryCapacity);
                         break;
                     case eVehiclesType.NormalCar:
-                        theVehicle = new Car(
-                            i_LicenseNumber,
-                            i_ModelName,
-                            new Wheels(i_WheelsManufacturerName, k_CarWheelsNumber, k_CarWheelMaxAirCapacity),
-                            new FuelEnergyUnit(k_NormalCarMaxFuelCapacity, k_NormalCarFuelType),
-                            i_VehicleSpecialParams);
+                        theVehicle = new Car();
+                        theVehicle.Wheels = new Wheels(k_CarWheelsNumber, k_CarWheelMaxAirCapacity);
+                        theVehicle.EnergyUnit = new FuelEnergyUnit(k_NormalCarMaxFuelCapacity, k_NormalCarFuelType);
                         break;
                     case eVehiclesType.ElectricCar:
-                        theVehicle = new Car(
-                            i_LicenseNumber,
-                            i_ModelName,
-                            new Wheels(i_WheelsManufacturerName, k_CarWheelsNumber, k_CarWheelMaxAirCapacity),
-                            new ElectricEnergyUnit(k_ElectricCarMaxBatteryCapacity),
-                            i_VehicleSpecialParams);
+                        theVehicle = new Car();
+                        theVehicle.Wheels = new Wheels(k_CarWheelsNumber, k_CarWheelMaxAirCapacity);
+                        theVehicle.EnergyUnit = new ElectricEnergyUnit(k_ElectricCarMaxBatteryCapacity);
                         break;
                     case eVehiclesType.Truck:
-                        theVehicle = new Truck(
-                            i_LicenseNumber,
-                            i_ModelName,
-                            new Wheels(i_WheelsManufacturerName, k_TruckWheelsNumber, k_TruckWheelMaxAirCapacity),
-                            new FuelEnergyUnit(k_TruckMaxFuelCapacity, k_TruckFuelType),
-                            i_VehicleSpecialParams);
+                        theVehicle = new Truck();
+                        theVehicle.Wheels = new Wheels(k_TruckWheelsNumber, k_TruckWheelMaxAirCapacity);
+                        theVehicle.EnergyUnit = new FuelEnergyUnit(k_TruckMaxFuelCapacity, k_TruckFuelType);
                         break;
                     default:
                         throw new FormatException("No such vehicle type");
@@ -78,9 +67,9 @@ namespace Ex03.GarageLogic.VehicleCreator
         private const float k_CarWheelMaxAirCapacity = 32f;
         private const float k_TruckWheelMaxAirCapacity = 26f;
 
-        private const eFuelType k_NormalBikeFuelType = eFuelType.Octan98;
-        private const eFuelType k_NormalCarFuelType = eFuelType.Octan95;
-        private const eFuelType k_TruckFuelType = eFuelType.Soler;
+        private const FuelEnergyUnit.eFuelType k_NormalBikeFuelType = FuelEnergyUnit.eFuelType.Octan98;
+        private const FuelEnergyUnit.eFuelType k_NormalCarFuelType = FuelEnergyUnit.eFuelType.Octan95;
+        private const FuelEnergyUnit.eFuelType k_TruckFuelType = FuelEnergyUnit.eFuelType.Soler;
 
         private const float k_NormalBikeMaxFuelCapacity = 6f;
         private const float k_NormalCarMaxFuelCapacity = 45f;

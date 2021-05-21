@@ -3,7 +3,7 @@ using Ex03.GarageLogic.Exceptions;
 
 namespace Ex03.GarageLogic.VehicleParts
 {
-    internal abstract class EnergyUnit
+    public abstract class EnergyUnit
     {
         private float m_MaxEnergyCapacity;
         private float m_CurrentEnergyAmount;
@@ -17,16 +17,16 @@ namespace Ex03.GarageLogic.VehicleParts
         internal EnergyUnit(float i_MaxEnergyCapacity)
         {
             MaxEnergyCapacity = i_MaxEnergyCapacity;
-            CurrentEnergyAmount = MaxEnergyCapacity * 0.75f;
+            CurrentEnergyAmount = 0;
         }
 
-        internal float MaxEnergyCapacity
+        public float MaxEnergyCapacity
         {
             get
             {
                 return m_MaxEnergyCapacity;
             }
-            set
+            internal set
             {
                 if (value < 0  || value < CurrentEnergyAmount)
                 {
@@ -37,7 +37,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        internal float CurrentEnergyAmount
+        public float CurrentEnergyAmount
         {
             get
             {
@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        internal float GetCurrentEnergyPercentage()
+        public float GetCurrentEnergyPercentage()
         {
             return 100f * (CurrentEnergyAmount / MaxEnergyCapacity);
         }
@@ -63,9 +63,11 @@ namespace Ex03.GarageLogic.VehicleParts
         {
             return string.Format(
                 @"Max energy capacity: {0}
-Current energy amount: {1}",
+Current energy amount: {1}
+Current energy percentage: {2}",
                 m_MaxEnergyCapacity,
-                m_CurrentEnergyAmount);
+                m_CurrentEnergyAmount,
+                GetCurrentEnergyPercentage());
         }
     }
 }

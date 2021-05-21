@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.Garage;
+using Ex03.GarageLogic.VehicleCreator;
 using Ex03.GarageLogic.VehicleParts;
 using Ex03.GarageLogic.Vehicles;
 
@@ -116,23 +117,9 @@ Choose an option:",
                     Console.WriteLine("Enter owner name:");
                     string ownerName = ConsoleInputUI.GetStringFromUser();
                     string ownersPhoneNumber = ConsoleInputUI.GetPhoneNumberFromUser();
-                    Console.WriteLine("Please choose vehicle type:");
-                    eVehiclesType vehiclesType = (eVehiclesType)getUserInputFromEnumMenu(new eVehiclesType());
-                    Console.WriteLine("Enter model name:");
-                    string modelName = ConsoleInputUI.GetStringFromUser();
-                    Console.WriteLine("Enter wheels manufacturer name:");
-                    string wheelsManufacturerName = ConsoleInputUI.GetStringFromUser();
-                    object[] specialParams = getSpecialParams(vehiclesType);
-
-                    r_GarageManager.CreateAndInsertNewVehicle(
-                        ownerName,
-                        ownersPhoneNumber,
-                        vehiclesType,
-                        licenseNumber,
-                        modelName,
-                        wheelsManufacturerName,
-                        specialParams);
-
+                    Vehicle theVehicle = getAndBuildNewVehicleFromUserInputs();
+                    theVehicle.LicenseNumber = licenseNumber;
+                    r_GarageManager.InsertVehicleToGarage(ownerName, ownersPhoneNumber, theVehicle);
                     Console.WriteLine("The vehicle has been added successfully");
                 }
                 else
@@ -152,6 +139,33 @@ Choose an option:",
                     exception = exception.InnerException;
                 }
             }
+        }
+
+        private Vehicle getAndBuildNewVehicleFromUserInputs()
+        {
+            Console.WriteLine("Choose vehicle type:");
+            VehicleCreator.eVehiclesType vehiclesType =
+                (VehicleCreator.eVehiclesType)getUserInputFromEnumMenu(new VehicleCreator.eVehiclesType());
+            Vehicle theVehicle = r_GarageManager.CreateVehicle(vehiclesType);
+
+            Console.WriteLine("Enter model name:");
+            theVehicle.ModelName = ConsoleInputUI.GetStringFromUser();
+            Console.WriteLine("Enter wheels manufacturer name:");
+            string manufactureName = ConsoleInputUI.GetStringFromUser();
+            theVehicle.Wheels.SetWheelsManufacturerName(manufactureName);
+            Console.WriteLine("Enter the air pressure of the wheels: ");
+            float currentAirPressure = ConsoleInputUI.GetFloatFromUser();
+            theVehicle.Wheels.SetWheelsAirPressure(currentAirPressure);
+            Console.WriteLine(
+                theVehicle.EnergyUnit is FuelEnergyUnit
+                    ? "Enter how many liters left in the engine: "
+                    : "Enter how many hours left in the battery amount: ");
+            float currentEnergyAmount = ConsoleInputUI.GetFloatFromUser();
+            theVehicle.EnergyUnit.CurrentEnergyAmount = currentEnergyAmount;
+            object[] specialParams = getVehicleSpecialParamsFromUser(theVehicle);
+            theVehicle.SetSpecialParams(specialParams);
+
+            return theVehicle;
         }
 
         public enum eVehiclesLicensesMenuOptions
@@ -245,7 +259,7 @@ Licenses list:");
                 Console.WriteLine("~ Refuel Vehicle ~");
                 string licenseNumber = ConsoleInputUI.GetLicenseNumberFromUser();
                 Console.WriteLine("Choose fuel type:");
-                eFuelType fuelType = (eFuelType)getUserInputFromEnumMenu(new eFuelType());
+                FuelEnergyUnit.eFuelType fuelType = (FuelEnergyUnit.eFuelType)getUserInputFromEnumMenu(new FuelEnergyUnit.eFuelType());
                 Console.WriteLine("Enter amount of liters:");
                 float fuelLiters = ConsoleInputUI.GetFloatFromUser();
                 r_GarageManager.RefuelVehicleByLicenseNumber(licenseNumber, fuelType, fuelLiters);
@@ -296,43 +310,31 @@ Licenses list:");
             Console.WriteLine(vehiclesDataList.ToString());
         }
 
-        private object[] getSpecialParams(eVehiclesType i_VehiclesType)
+        private object[] getVehicleSpecialParamsFromUser(Vehicle i_Vehicle)
         {
-            object[] specialParams = null;
-            switch (i_VehiclesType)
+            Tuple<string, object, Type>[] specialParamsArr = i_Vehicle.GetSpecialParamsDescriptions();
+            object[] returnValues = new object[specialParamsArr.Length];
+            int writeIndex = 0;
+
+            foreach(Tuple<string, object, Type> param in specialParamsArr)
             {
-                case eVehiclesType.NormalBike:
-                case eVehiclesType.ElectricBike:
-                    specialParams = new object[Enum.GetValues(typeof(Bike.eBikeSpecialParams)).Length];
-                    Console.WriteLine("Enter engine volume:");
-                    specialParams[(int)Bike.eBikeSpecialParams.EngineVolume] = ConsoleInputUI.GetIntFromUser();
-                    Console.WriteLine("Choose license type:");
-                    specialParams[(int)Bike.eBikeSpecialParams.LicenseType] =
-                        (Bike.eLicenseType)getUserInputFromEnumMenu(new Bike.eLicenseType());
-                    break;
-                case eVehiclesType.NormalCar:
-                case eVehiclesType.ElectricCar:
-                    specialParams = new object[Enum.GetValues(typeof(Car.eCarSpecialParams)).Length];
-                    Console.WriteLine("Choose car color:");
-                    specialParams[(int)Car.eCarSpecialParams.CarColor] =
-                        (Car.eCarColor)getUserInputFromEnumMenu(new Car.eCarColor());
-                    Console.WriteLine("Choose number of doors:");
-                    specialParams[(int)Car.eCarSpecialParams.NumberOfCarDoors] =
-                        (Car.eNumberOfCarDoors)getUserInputFromEnumMenu(new Car.eNumberOfCarDoors());
-                    break;
-                case eVehiclesType.Truck:
-                    specialParams = new object[Enum.GetValues(typeof(Truck.eTruckSpecialParams)).Length];
-                    Console.WriteLine("Is driving hazardous materials?");
-                    specialParams[(int)Truck.eTruckSpecialParams.IsDrivesHazardousMaterials] =
-                        (Truck.eHazardousMaterials)getUserInputFromEnumMenu(new Truck.eHazardousMaterials());
-                    Console.WriteLine("Enter max capacity weight:");
-                    specialParams[(int)Truck.eTruckSpecialParams.MaxCapacityWeight] = ConsoleInputUI.GetFloatFromUser();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(i_VehiclesType), i_VehiclesType, null);
+                Enum theEnum = param.Item2 as Enum;
+                if(theEnum != null)
+                {
+                    Console.WriteLine(string.Format("{0}: ", param.Item1));
+                    returnValues[writeIndex] = getUserInputFromEnumMenu(theEnum);
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("Please enter {0}:", param.Item1));
+                    string userInput = ConsoleInputUI.GetStringFromUser();
+                    returnValues[writeIndex] = Convert.ChangeType(userInput, param.Item3);
+                }
+
+                writeIndex++;
             }
 
-            return specialParams;
+            return returnValues;
         }
 
         private string buildStrMenuFromEnum(Enum i_Enum)
