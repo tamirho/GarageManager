@@ -70,13 +70,13 @@ namespace Ex03.GarageLogic.Garage
         public void InflateVehicleWheelsPressureToMaxByLicenseNumber(string i_LicenseNumber)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
-            foreach (Wheel theWheel in theReport.Vehicle.Wheels.WheelsList)
+            foreach(Wheel theWheel in theReport.Vehicle.Wheels.WheelsList)
             {
                 theWheel.AddAirPressure(theWheel.MaxAirPressure - theWheel.CurrentAirPressure);
             }
         }
 
-        public void RefuelVehicleByLicenseNumber(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelLiters)
+        public void RefuelVehicleByLicenseNumber(string i_LicenseNumber, FuelEnergyUnit.eFuelType i_FuelType, float i_FuelLiters)
         {
             GarageReport theReport = getGarageReportByLicenseNumber(i_LicenseNumber);
             if (!(theReport.Vehicle.EnergyUnit is FuelEnergyUnit theEnergyUnit))

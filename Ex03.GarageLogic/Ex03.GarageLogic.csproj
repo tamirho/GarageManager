@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="eVehiclesType.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="VehicleCreator\VehicleCreatorException.cs" />
     <Compile Include="Garage\Garage.cs" />
@@ -48,7 +47,6 @@
     <Compile Include="Garage\GarageException.cs" />
     <Compile Include="Garage\GarageReport.cs" />
     <Compile Include="VehicleCreator\VehicleCreator.cs" />
-    <Compile Include="VehicleParts\eFuelType.cs" />
     <Compile Include="VehicleParts\ElectricEnergyUnit.cs" />
     <Compile Include="VehicleParts\EnergyUnit.cs" />
     <Compile Include="VehicleParts\FuelEnergyUnit.cs" />

@@ -3,32 +3,40 @@ using System.Text;
 
 namespace Ex03.GarageLogic.VehicleParts
 {
-    internal class Wheels
+    public class Wheels
     {
         private List<Wheel> m_WheelsList;
 
-        internal Wheels(string i_ManufacturerName, int i_WheelsNum, float i_MaxAirPressure)
+        internal Wheels(int i_WheelsNum, float i_MaxAirPressure)
         {
             m_WheelsList = new List<Wheel>();
             for(int i = 0; i < i_WheelsNum; i++)
             {
-                m_WheelsList.Add(new Wheel(i_ManufacturerName, i_MaxAirPressure * 0.75f, i_MaxAirPressure));
+                m_WheelsList.Add(new Wheel(i_MaxAirPressure));
             }
         }
 
-        internal int WheelsNum
-        {
-            get
-            {
-                return m_WheelsList.Count;
-            }
-        }
-
-        internal List<Wheel> WheelsList
+        public List<Wheel> WheelsList
         {
             get
             {
                 return m_WheelsList;
+            }
+        }
+
+        public void SetWheelsManufacturerName(string i_ManufacturerName)
+        {
+            foreach (Wheel wheel in m_WheelsList)
+            {
+                wheel.ManufacturerName = i_ManufacturerName;
+            }
+        }
+
+        public void SetWheelsAirPressure(float i_AirPressure)
+        {
+            foreach (Wheel wheel in m_WheelsList)
+            {
+                wheel.CurrentAirPressure = i_AirPressure;
             }
         }
 
@@ -38,7 +46,7 @@ namespace Ex03.GarageLogic.VehicleParts
             wheelStringBuilder.AppendFormat(
                 @"Wheels:
 Number of wheels: {0}",
-                WheelsNum);
+                m_WheelsList.Count);
             foreach(Wheel wheel in m_WheelsList)
             {
                 wheelStringBuilder.AppendFormat(

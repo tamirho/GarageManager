@@ -5,9 +5,11 @@ namespace Ex03.GarageLogic.Vehicles
 {
     public class Truck : Vehicle
     {
-        private eHazardousMaterials m_IsDrivesHazardousMaterials;
-        private float m_MaxCapacityWeight;
-        
+        private eHazardousMaterials? m_IsDrivesHazardousMaterials;
+        private float? m_MaxCapacityWeight;
+
+        internal Truck() {}
+
         internal Truck(
             string i_LicenseNumber,
             string i_ModelName,
@@ -40,7 +42,7 @@ namespace Ex03.GarageLogic.Vehicles
             MaxCapacityWeight
         }
 
-        public eHazardousMaterials IsDrivesHazardousMaterials
+        public eHazardousMaterials? IsDrivesHazardousMaterials
         {
             get
             {
@@ -57,7 +59,7 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-        public float MaxCapacityWeight
+        public float? MaxCapacityWeight
         {
             get
             {
@@ -72,6 +74,24 @@ namespace Ex03.GarageLogic.Vehicles
 
                 m_MaxCapacityWeight = value;
             }
+        }
+
+        public override Tuple<string, object, Type>[] GetSpecialParamsDescriptions()
+        {
+            Tuple<string, object, Type>[] specialParamsArr =
+                {
+                    new Tuple<string, object, Type>("Hazardous materials", new eHazardousMaterials(), typeof(eHazardousMaterials)),
+                    new Tuple<string, object, Type>("max capacity weight", null, typeof(float))
+                };
+
+            return specialParamsArr;
+        }
+
+        public override void SetSpecialParams(object[] i_SpecialParamsInputs)
+        {
+            IsDrivesHazardousMaterials =
+                (eHazardousMaterials)i_SpecialParamsInputs[(int)eTruckSpecialParams.IsDrivesHazardousMaterials];
+            MaxCapacityWeight = (float)i_SpecialParamsInputs[(int)eTruckSpecialParams.MaxCapacityWeight];
         }
 
         public override string ToString()

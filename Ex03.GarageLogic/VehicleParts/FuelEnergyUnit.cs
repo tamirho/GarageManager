@@ -2,7 +2,7 @@
 
 namespace Ex03.GarageLogic.VehicleParts
 {
-    internal class FuelEnergyUnit : EnergyUnit
+    public class FuelEnergyUnit : EnergyUnit
     {
         private eFuelType m_FuelType;
 
@@ -18,13 +18,21 @@ namespace Ex03.GarageLogic.VehicleParts
             FuelType = i_FuelType;
         }
 
-        internal eFuelType FuelType
+        public enum eFuelType
+        {
+            Octan98 = 1,
+            Octan96,
+            Octan95,
+            Soler
+        }
+
+        public eFuelType FuelType
         {
             get
             {
                 return m_FuelType;
             }
-            set
+            internal set
             {
                 if (!Enum.IsDefined(typeof(eFuelType), value))
                 {
@@ -35,7 +43,7 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        internal void AddFuel(float i_FuelLiters, eFuelType i_FuelType)
+        public void AddFuel(float i_FuelLiters, eFuelType i_FuelType)
         {
             if(m_FuelType != i_FuelType)
             {

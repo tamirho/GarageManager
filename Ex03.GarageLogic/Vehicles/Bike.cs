@@ -5,8 +5,10 @@ namespace Ex03.GarageLogic.Vehicles
 {
     public class Bike : Vehicle
     {
-        private eLicenseType m_LicenseType;
-        private int m_EngineVolume;
+        private eLicenseType? m_LicenseType;
+        private int? m_EngineVolume;
+
+        internal Bike() {}
 
         internal Bike(
             string i_LicenseNumber,
@@ -42,7 +44,7 @@ namespace Ex03.GarageLogic.Vehicles
             BB
         }
 
-        public eLicenseType LicenseType
+        public eLicenseType? LicenseType
         {
             get
             {
@@ -50,7 +52,7 @@ namespace Ex03.GarageLogic.Vehicles
             }
             set
             {
-                if(!Enum.IsDefined(typeof(eLicenseType), value))
+                if(!Enum.IsDefined(typeof(eLicenseType), value ?? throw new ArgumentNullException(nameof(value))))
                 {
                     throw new ArgumentException("Error with eLicenseType conversion");
                 }
@@ -59,7 +61,7 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-        public int EngineVolume
+        public int? EngineVolume
         {
             get
             {
@@ -74,6 +76,23 @@ namespace Ex03.GarageLogic.Vehicles
                 
                 m_EngineVolume = value;
             }
+        }
+
+        public override Tuple<string, object, Type>[] GetSpecialParamsDescriptions()
+        {
+            Tuple<string, object, Type>[] specialParamsArr =
+                {
+                    new Tuple<string, object, Type>("License type", new eLicenseType(), typeof(eLicenseType)),
+                    new Tuple<string, object, Type>("engine volume", null, typeof(int))
+                };
+
+            return specialParamsArr;
+        }
+
+        public override void SetSpecialParams(object[] i_SpecialParamsInputs)
+        {
+            LicenseType = (eLicenseType)i_SpecialParamsInputs[(int)eBikeSpecialParams.LicenseType];
+            EngineVolume = (int)i_SpecialParamsInputs[(int)eBikeSpecialParams.EngineVolume];
         }
 
         public override string ToString()

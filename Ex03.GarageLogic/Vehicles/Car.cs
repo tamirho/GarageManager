@@ -5,8 +5,10 @@ namespace Ex03.GarageLogic.Vehicles
 {
     public class Car : Vehicle
     {
-        private eCarColor m_Color;
-        private eNumberOfCarDoors m_NumberOfDoors;
+        private eCarColor? m_Color;
+        private eNumberOfCarDoors? m_NumberOfDoors;
+
+        internal Car() { }
 
         internal Car(
             string i_LicenseNumber,
@@ -50,7 +52,7 @@ namespace Ex03.GarageLogic.Vehicles
             Five
         }
 
-        public eCarColor Color
+        public eCarColor? Color
         {
             get
             {
@@ -67,7 +69,7 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-        public eNumberOfCarDoors NumberOfDoors
+        public eNumberOfCarDoors? NumberOfDoors
         {
             get
             {
@@ -82,6 +84,26 @@ namespace Ex03.GarageLogic.Vehicles
 
                 m_NumberOfDoors = value;
             }
+        }
+
+        public override Tuple<string, object, Type>[] GetSpecialParamsDescriptions()
+        {
+            Tuple<string, object, Type>[] specialParamsArr =
+                {
+                    new Tuple<string, object, Type>("Car color", new eCarColor(), typeof(eCarColor)),
+                    new Tuple<string, object, Type>(
+                        "Number of doors",
+                        new eNumberOfCarDoors(),
+                        typeof(eNumberOfCarDoors))
+                };
+
+            return specialParamsArr;
+        }
+
+        public override void SetSpecialParams(object[] i_SpecialParamsInputs)
+        {
+            Color = (eCarColor)i_SpecialParamsInputs[(int)eCarSpecialParams.CarColor];
+            NumberOfDoors = (eNumberOfCarDoors)i_SpecialParamsInputs[(int)eCarSpecialParams.NumberOfCarDoors];
         }
 
         public override string ToString()

@@ -1,4 +1,7 @@
-﻿namespace Ex03.ConsoleUI
+﻿using System;
+using Ex03.GarageLogic.VehicleParts;
+
+namespace Ex03.ConsoleUI
 {
     public class Program
     {
